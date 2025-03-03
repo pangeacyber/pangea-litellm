@@ -1,0 +1,24 @@
+{
+  "pangea_domain": "dev.aws.pangea.cloud",
+  "ignore_pangea_domain": "host.docker.internal:8000",
+  "insecure": false,
+  "log_level": "debug",
+  "headers": {
+    "apikey": {
+      "12345": {"foo":  "pangea_prompt_guard"}
+    }
+  },
+  "rules": [
+    {
+      "model": "openai/gpt-3.5-turbo",
+      "allow_on_error": false,
+      "ai_guard": {
+        "request": {
+          "parameters": {
+            "recipe": "pangea_prompt_guard"
+          }
+        }
+      }
+    }
+  ]
+}
