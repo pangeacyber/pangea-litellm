@@ -176,7 +176,16 @@ class PangeaHandler(CustomLogger):
             if recipe:
                 log.debug(f"PANGEA final recipe: {recipe}")
                 op.json["recipe"] = recipe
-
+            # not sure about this parsing or how its going to differ between providers, so opting to use
+            # everything after the / as the model and not providing a version to the log
+            # maybe import the translator and let it parse the model?
+            provider, model = data['model'].split('/', 1)
+            log_fields = {
+                "model": f'{{"provider": "{provider}", "model": "{model}"}}',
+                # this is the incoming API not the outgoing one
+                "extra_info": f'{{"api": "{data["metadata"]["endpoint"]}"}}',
+            }
+            op.json["log_fields"] = log_fields
             log.debug(f"PANGEA OP: {json.dumps(op.json)}")
             response = self.ai_guard.guard_text(messages=data["messages"], **op.json)
             log.debug(f"PANGEA RESPONSE: {json.dumps(response.json)}")
