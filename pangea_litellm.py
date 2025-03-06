@@ -85,6 +85,7 @@ class PangeaLLConfig:
     def __init__(self, j: dict):
         self.domain = j.get("pangea_domain")
         self.insecure = j.get("insecure", False)
+        self.header_recipe_map = j.get("headers", {})
         log_level = j.get("log_level")
         if log_level:
             log.level = Log.LEVELS.get(log_level, log.level)
@@ -160,10 +161,22 @@ class PangeaHandler(CustomLogger):
             if op is None:
                 log.debug(f"No work for 'request', allowing")
                 return
-            log.debug(f"OP: {json.dumps(op.json)}")
+
+            # recipe is in the config, but can be overridden by this header
             recipe = data["metadata"].get("headers", {}).get('x-pangea-aig-recipe')
+            log.debug(f"PANGEA recipe from custom header {recipe}")
+            # can be further overridden by the configured header/recipe map
+            for header_name, recipe_map in config.header_recipe_map.items():
+                header_name = header_name.lower()
+                header_value = data["metadata"].get("headers", {}).get(header_name)
+                if not header_value:
+                    continue
+                if header_value in recipe_map:
+                    recipe = recipe_map[header_value]
             if recipe:
+                log.debug(f"PANGEA final recipe: {recipe}")
                 op.json["recipe"] = recipe
+
             log.debug(f"PANGEA OP: {json.dumps(op.json)}")
             response = self.ai_guard.guard_text(messages=data["messages"], **op.json)
             log.debug(f"PANGEA RESPONSE: {json.dumps(response.json)}")

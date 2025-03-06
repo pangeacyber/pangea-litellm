@@ -23,7 +23,7 @@ EXPOSE 4000/tcp
 # CMD ["--port", "4000", "--config", "config.yaml"]
 
 
-# populate token in environment ENV PANGEA_AI_GUARD_TOKEN=pangea token>
+# populate token in environment ENV PANGEA_AI_GUARD_TOKEN=
 
 
 CMD ["--port", "4000", "--config", "config.yaml", "--detailed_debug"]

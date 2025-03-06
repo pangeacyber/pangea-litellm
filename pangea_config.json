@@ -4,9 +4,7 @@
   "insecure": false,
   "log_level": "debug",
   "headers": {
-    "apikey": {
-      "12345": {"foo":  "pangea_prompt_guard"}
-    }
+    "X-Custom-Header": {"abc123":  "pangea_prompt_guard_clone"}
   },
   "rules": [
     {
