@@ -1,6 +1,5 @@
 {
   "pangea_domain": "dev.aws.pangea.cloud",
-  "ignore_pangea_domain": "host.docker.internal:8000",
   "insecure": false,
   "log_level": "debug",
   "headers": {
