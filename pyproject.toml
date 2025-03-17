@@ -5,4 +5,5 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "^3.10"
 pangea-sdk = "^5.5.0b4"
+litellm = "^1.63.2"
 

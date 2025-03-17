@@ -5,7 +5,6 @@ from traceback import format_exception
 import typing as t
 
 from litellm.integrations.custom_logger import CustomLogger
-import litellm
 from litellm.proxy.proxy_server import UserAPIKeyAuth, DualCache
 from typing import Optional, Literal
 from fastapi import HTTPException
@@ -54,16 +53,16 @@ log = Log()
 
 class Operation:
     def __init__(self, op_params: dict):
-        self.json = op_params
+        self.json = op_params.copy()
         if "recipe" not in self.json:
             self.json["recipe"] = "pangea_prompt_guard"
 
 
 class Rule:
     def __init__(self, rule: dict):
-        self.rule = rule
-        self.model = rule.get("model")
-        self.allow_failure = rule.get("allow_on_error", False)
+        self.rule = rule.copy()
+        self.model = self.rule.get("model")
+        self.allow_failure = self.rule.get("allow_on_error", False)
 
     def match(self, model) -> bool:
         if model != self.model:
@@ -79,6 +78,32 @@ class Rule:
         if info is None or not info.get("enabled", True):
             return None
         return Operation(info)
+
+
+default_config = {
+  "pangea_domain": DEFAULT_PANGEA_DOMAIN,
+  "rules": [
+    {
+      "host": "localhost",
+      "endpoint": "/chat/completions",
+      "allow_on_error": False,
+      "protocols": ["http"],
+      "ports": ["4000"],
+      "audit_values": {
+        "model": "openai/gpt-3.5-turbo"
+      },
+      "ai_guard": {
+        "request": {
+          "parameters": {
+            "recipe": "pangea_prompt_guard",
+          }
+        },
+        "response": {
+        }
+      }
+    }
+  ]
+}
 
 
 class PangeaLLConfig:
@@ -106,6 +131,7 @@ class PangeaLLConfig:
             if rule.match(model):
                 return rule
 
+        return None
 
 def load_config():
     loc = os.getenv("PANGEA_LL_CONFIG_FILE")
@@ -143,6 +169,8 @@ class PangeaHandler(CustomLogger):
             "image_generation",
             "moderation",
             "audio_transcription",
+            # 'pass_through_endpoint',
+            # 'rerank'
         ]):
 
         log.debug(f"PANGEA DICT: {data.keys()}")
