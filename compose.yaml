@@ -10,6 +10,6 @@ services:
       - "8011:8001"
       - "8012:8002"
     environment:
-      PANGEA_KONG_CONFIG_FILE: /app/pangea_config.json
+      PANGEA_LL_CONFIG_FILE: "/app/pangea_config.json"
       PANGEA_AI_GUARD_TOKEN: ${PANGEA_AI_GUARD_TOKEN}
     command: ["--port", "4000", "--config", "/app/config.yaml", "--detailed_debug"]
