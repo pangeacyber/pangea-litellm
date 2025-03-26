@@ -6,12 +6,13 @@ import typing as t
 
 from litellm.integrations.custom_logger import CustomLogger
 from litellm.proxy.proxy_server import UserAPIKeyAuth, DualCache
-from typing import Optional, Literal
+from typing import Literal
 from fastapi import HTTPException
 
 
 from pangea import PangeaConfig
 from pangea.services.ai_guard import AIGuard
+from pangea.exceptions import PangeaAPIException
 
 token = os.getenv("PANGEA_AI_GUARD_TOKEN", "")
 
@@ -153,7 +154,7 @@ config = load_config()
 class PangeaHandler(CustomLogger):
     def __init__(self):
         kwargs = {
-            "domain": "dev.aws.pangea.cloud",  # config.domain,
+            "domain": config.domain,
         }
         if not config.domain.endswith(".pangea.cloud"):
             kwargs["environment"] = "local"
@@ -230,6 +231,8 @@ class PangeaHandler(CustomLogger):
                 data["messages"] = new_messages
         except HTTPException as e:
             raise  # need to let this float up
+        except PangeaAPIException as e:
+            log.error(f"PangeaAPIException while trying to call AI Guard: {str(e)}")
         except Exception as e:
             log.error(f"Exception while trying to call AI Guard:\n {format_exception(e)}")
             if not allow_failure:
