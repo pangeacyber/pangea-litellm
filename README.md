@@ -44,19 +44,19 @@ In order to run `litellm_plugin` image we need to understand some settings in th
 ```yaml
 services:
   pangea-litellm-plugin:
-	container_name: pangea-litellm-container
-	image: litellm_plugin
-	volumes:
+    container_name: pangea-litellm-container
+    image: litellm_plugin
+    volumes:
   	- ./config/config.yaml:/app/config.yaml
   	- ./config/pangea_config.json:/app/pangea_config.json
-	ports:
+    ports:
   	- "4000:4000"
   	- "8011:8001"
   	- "8012:8002"
-	environment:
+    environment:
   	PANGEA_LL_CONFIG_FILE: /app/pangea_config.json
   	PANGEA_AI_GUARD_TOKEN: ${PANGEA_AI_GUARD_TOKEN}
-	command: ["--port", "4000", "--config", "/app/config.yaml", "--detailed_debug"]
+    command: ["--port", "4000", "--config", "/app/config.yaml", "--detailed_debug"]
 ```
 
 The sections of the file are described below:
@@ -67,8 +67,8 @@ Environment variables are set in the following section of the `compose.yaml` fil
 
 ```yaml
 services:
-	pangea-litellm-plugin:
-    	environment:
+  pangea-litellm-plugin:
+    environment:
 ```
 
 1. Pangea AI Guard Token: This token is needed to make requests to Pangea AI Guard service. In order to load it on the plugin it should be saved into the `PANGEA_AI_GUARD_TOKEN`environment variable. It should be done on the `compose.yaml` file, not in the `Dockerfile`. NOTE: To inject environment variables with sensitive information in a Dockerfile [Docker Secrets](https://docs.docker.com/compose/how-tos/use-secrets/) should be used.
@@ -76,14 +76,14 @@ services:
 To set this environment variable run the following command using the Pangea token you previously generated as its value:
 
 ```bash
-	export PANGEA_AI_GUARD_TOKEN=”pts_…”
+export PANGEA_AI_GUARD_TOKEN=”pts_…”
 ```
 
 2. `PANGEA_LL_CONFIG_FILE` is set to the Pangea LiteLLM Config file location. This file should be mounted in the `volumes` section of the `compose.yaml` file. In this example it is set to `/app/pangea_config.json` due to in `volumes` sections we have:
-	```yaml
-    	volumes:
-        	- ./config/pangea_config.json:/app/pangea_config.json
-	```
+```yaml
+    volumes:
+      - ./config/pangea_config.json:/app/pangea_config.json
+```
 	This means that `./config/pangea_config.json` in our local machine is mounted into `/app/pangea_config.json` on the Pangea Plugin docker. The Pangea LiteLLM Plugin configuration file will be documented in a later section.
 
 
@@ -91,8 +91,8 @@ To set this environment variable run the following command using the Pangea toke
 
 To allow docker to access a local file it must be declared in the `volumes` section in the `compose.yaml` file.
 ```yaml
-	volumes:
-  	- <origin>:<destination>
+    volumes:
+      - <origin>:<destination>
 ```
 It is possible to map this origin from whatever location in our local machine to whatever destination into the docker but it is important to take care about location permissions. Also the `destination` path should be saved into the environment variable `PANGEA_LL_CONFIG_FILE` so it can be loaded by the plugin.  In this example the relative path `./config` makes reference to the root directory where the `compose.yaml` file is located.
 
@@ -106,11 +106,11 @@ In the file `./config/config.yaml`:
 ```yaml
 model_list:
   - model_name: openai-gpt-3.5
-	litellm_params:
-  	model: openai/gpt-3.5-turbo
-  	api_key: sk-proj-...
-  	organization: org-...
-  	temperature: 0.2
+litellm_params:
+  model: openai/gpt-3.5-turbo
+  api_key: sk-proj-...
+  organization: org-...
+  temperature: 0.2
 
 litellm_settings:
   callbacks: pangea_litellm.proxy_handler_instance # sets litellm.callbacks = [proxy_handler_instance]
@@ -201,7 +201,7 @@ and should return something like:
 In these examples an Open AI Key is needed. Save it in an environment variable called `OPENAI_API_KEY`.
 
 ```bash
-	export OPENAI_API_KEY=”sk-proj-...”
+export OPENAI_API_KEY=”sk-proj-...”
 ```
 
 ### Valid request
