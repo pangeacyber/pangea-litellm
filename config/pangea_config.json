@@ -1,10 +1,7 @@
 {
-  "pangea_domain": "dev.aws.pangea.cloud",
+  "pangea_domain": "aws.us.pangea.cloud",
   "insecure": false,
   "log_level": "debug",
-  "headers": {
-    "X-Custom-Header": {"abc123":  "pangea_prompt_guard_clone"}
-  },
   "rules": [
     {
       "model": "openai/gpt-3.5-turbo",
