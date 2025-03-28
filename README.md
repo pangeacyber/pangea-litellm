@@ -26,7 +26,7 @@ To get started with the Pangea LiteLLM Plugin, follow these steps:
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - Curl
 
-2. Get a [Pangea token for the AI Guard service and its domain][get-a-free-pangea-account-and-enable-the-ai-guard-service].
+2. Get a [Pangea token for the AI Guard service and its domain](https://pangea.cloud/docs/ai-guard/#get-a-free-pangea-account-and-enable-the-ai-guard-service).
 
 
 ### Build
@@ -297,7 +297,4 @@ We welcome contributions from the community to improve and expand the capabiliti
 ## License
 
 The Pangea LiteLLM Plugin is released under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use, modify, and distribute it according to the terms of the license.
-
-
-[configure-a-pangea-service]: https://pangea.cloud/docs/getting-started/configure-services/#configure-a-pangea-service
 
