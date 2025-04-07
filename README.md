@@ -201,7 +201,7 @@ and should return something like:
 In these examples an Open AI Key is needed. Save it in an environment variable called `OPENAI_API_KEY`.
 
 ```bash
-export OPENAI_API_KEY=”sk-proj-...”
+export OPENAI_API_KEY="sk-proj-..."
 ```
 
 ### Valid request
@@ -233,27 +233,27 @@ Response:
         	"finish_reason": "stop",
         	"index": 0,
         	"message": {
-            	"content": "<****>",
-            	"role": "assistant",
-            	"tool_calls": null,
-            	"function_call": null
+            		"content": "<****>",
+            		"role": "assistant",
+            		"tool_calls": null,
+            		"function_call": null
         	}
     	}
 	],
 	"usage": {
-    	"completion_tokens": 4,
-    	"prompt_tokens": 25,
-    	"total_tokens": 29,
-    	"completion_tokens_details": {
-        	"accepted_prediction_tokens": 0,
-        	"audio_tokens": 0,
-        	"reasoning_tokens": 0,
-        	"rejected_prediction_tokens": 0
-    	},
-    	"prompt_tokens_details": {
-        	"audio_tokens": 0,
-        	"cached_tokens": 0
-    	}
+	    	"completion_tokens": 4,
+	    	"prompt_tokens": 25,
+	    	"total_tokens": 29,
+	    	"completion_tokens_details": {
+	        	"accepted_prediction_tokens": 0,
+	        	"audio_tokens": 0,
+	        	"reasoning_tokens": 0,
+	        	"rejected_prediction_tokens": 0
+	    	},
+	    	"prompt_tokens_details": {
+	        	"audio_tokens": 0,
+	        	"cached_tokens": 0
+	    	}
 	},
 	"service_tier": "default"
 }
@@ -281,10 +281,10 @@ Response:
 ```json
 {
 	"error": {
-    	"message": "{'error': 'Prompt Injection was detected and blocked.  Confidential and PII was detected and redacted.'}",
-    	"type": "None",
-    	"param": "None",
-    	"code": "400"
+	    	"message": "{'error': 'Prompt Injection was detected and blocked.  Confidential and PII was detected and redacted.'}",
+	    	"type": "None",
+	    	"param": "None",
+	    	"code": "400"
 	}
 }
 ```
